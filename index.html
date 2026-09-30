@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GEN_Z — Define Your Generation</title>
+<meta content="GEN_Z is a streetwear studio out of Lagos, Seoul and Berlin building limited-run drops, custom pieces and collections for a generation that sets its own trends." name="description"/>
+<meta content="streetwear, GEN_Z, limited drops, custom clothing, hoodies, jeans, streetwear brand, urban fashion" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<!-- Forces any accidental http:// resource (images, scripts, API calls) to
+     be requested over https instead, once this page itself is served over
+     https. This is one piece of removing the browser's "Not Secure" warning
+     — see the GENZ_API_BASE note below for the other piece. -->
+<meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy"/>
+<meta content="GEN_Z Studio" name="author"/>
+<!-- IMPORTANT: replace this with your real domain once you buy one (see deploy guide) -->
+<link href="https://www.genzstudio.com/" rel="canonical"/>
+<!-- Open Graph / Facebook / WhatsApp preview -->
+<meta content="website" property="og:type"/>
+<meta content="https://www.genzstudio.com/" property="og:url"/>
+<meta content="GEN_Z — Define Your Generation" property="og:title"/>
+<meta content="Limited-run streetwear drops, custom pieces and collections out of Lagos, Seoul and Berlin." property="og:description"/>
+<meta content="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=1200&amp;h=630&amp;fit=crop" property="og:image"/>
+<!-- Twitter/X preview -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="GEN_Z — Define Your Generation" name="twitter:title"/>
+<meta content="Limited-run streetwear drops, custom pieces and collections out of Lagos, Seoul and Berlin." name="twitter:description"/>
+<meta content="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=1200&amp;h=630&amp;fit=crop" name="twitter:image"/>
+<link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;rect width=%22100%22 height=%22100%22 rx=%2216%22 fill=%22%23221F1C%22/&gt;&lt;text x=%2250%22 y=%2266%22 font-size=%2250%22 font-family=%22sans-serif%22 font-weight=%22700%22 fill=%22%23F1EADF%22 text-anchor=%22middle%22&gt;Z&lt;/text&gt;&lt;/svg&gt;" rel="icon" type="image/svg+xml"/>
+<!-- Structured data so Google can show rich results (store name, logo, socials) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "GEN_Z Studio",
+  "description": "Streetwear studio out of Lagos, Seoul and Berlin building limited-run drops, custom pieces and collections.",
+  "url": "https://www.genzstudio.com/",
+  "email": "support@example.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "YOUR_BUSINESS_ADDRESS",
+    "addressLocality": "Berlin",
+    "postalCode": "10119",
+    "addressCountry": "DE"
+  }
+}
+</script>
+<script>window.GENZ_API_BASE = 'backend';
+// Google Client ID is loaded from backend/config.php via /backend/api/config.
+window.GOOGLE_CLIENT_ID = '';</script>
+<!-- Google Identity Services library — needed for real "Sign in with Google" -->
+<script async="" defer="" src="https://accounts.google.com/gsi/client"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide-static/0.454.0/umd/lucide.min.js"></script>
+<!-- ============================================================
+     GOOGLE ANALYTICS (GA4) — REPLACE_WITH_YOUR_ID
+     Replace G-REPLACE_WITH_YOUR_ID below with your real GA4
+     Measurement ID (Google Analytics → Admin → Data Streams →
+     your stream → Measurement ID). Until you do, this script
+     loads but sends no usable data — no traffic is tracked yet.
+============================================================ -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-REPLACE_WITH_YOUR_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-REPLACE_WITH_YOUR_ID');
+</script>
+
+
+<!-- ============================================================
+     NEW: 3D login screen, custom cursor, sound toggle, countdown,
+     and admin control panel styles.
+============================================================ -->
+
+<link href="assets/style.css" rel="stylesheet"/></head>
+<body>
+<div aria-hidden="true" class="top-marquee">
+<div class="marquee-track">
+<span>GEN_Z</span><span>NEW DROP EVERY FRIDAY</span><span>FREE SHIPPING OVER $100</span><span>GEN_Z</span><span>PAY WITH JAZZCASH, CARD OR BANK</span>
+<span>GEN_Z</span><span>NEW DROP EVERY FRIDAY</span><span>FREE SHIPPING OVER $100</span><span>GEN_Z</span><span>PAY WITH JAZZCASH, CARD OR BANK</span>
+</div>
+</div>
+<!-- Custom cursor trailer — lives outside every .screen so it stays active
+     on Welcome, Login, and the main shop, instead of disappearing whenever
+     a screen with display:none hides its ancestor. -->
+<div aria-hidden="true" id="cursorDot"></div>
+<div aria-hidden="true" id="cursorRing"></div>
+<div class="screen active" id="screen-intro">
+<div class="intro-inner">
+<div aria-hidden="true" class="brand-mark brand-mark-lg">GZ</div>
+<h1 class="intro-logo">GEN<span class="logo-accent">_</span>Z</h1>
+<div class="intro-loader"><span></span></div>
+<p class="intro-credit">Website made by <strong>Danial Awan</strong></p>
+</div>
+</div>
+<!-- Safety-net fallback: guarantees the intro splash never gets stuck,
+     even if the main script below fails to parse/run on an older
+     mobile browser. Uses only plain ES5 syntax for maximum compatibility. -->
+<script>
+  setTimeout(function(){
+    var introEl = document.getElementById('screen-intro');
+    if(introEl && introEl.classList.contains('active')){
+      var welcomeEl = document.getElementById('screen-welcome');
+      var loginEl = document.getElementById('screen-login');
+      introEl.classList.remove('active');
+      if(welcomeEl) welcomeEl.classList.add('active');
+      else if(loginEl) loginEl.classList.add('active');
+      window.scrollTo(0,0);
+    }
+  }, 6000);
+</script>
+<div class="screen" id="screen-welcome">
+<div class="welcome-inner">
+<div class="welcome-bg-text">GENZ</div>
+<div aria-hidden="true" class="shop-float-layer">
+<div class="shop-chip chip-tees"><img decoding="async" alt="" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&amp;h=360&amp;fit=crop';" src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=300&amp;h=360&amp;fit=crop"/><span>T-Shirts</span></div>
+<div class="shop-chip chip-jeans"><img decoding="async" alt="" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&amp;h=360&amp;fit=crop';" src="https://images.unsplash.com/photo-1475178626620-a4d074967452?w=300&amp;h=360&amp;fit=crop"/><span>Jeans</span></div>
+<div class="shop-chip chip-watches"><img decoding="async" alt="" src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=300&amp;h=360&amp;fit=crop"/><span>Accessories</span></div>
+<div class="shop-chip chip-perfume"><img decoding="async" alt="" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1541643600914-78b084683601?w=300&amp;h=360&amp;fit=crop';" src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=300&amp;h=360&amp;fit=crop"/><span>Perfume</span></div>
+</div>
+<div class="welcome-content">
+<div aria-hidden="true" class="brand-mark brand-mark-lg">GZ</div>
+<p class="eyebrow animate-fade-in d-1">Streetwear / Est. 2018</p>
+<h1 class="welcome-headline animate-slide-up d-2">GEN_Z</h1>
+<p class="welcome-tagline animate-fade-in d-3">Clothing built for the culture that refuses to wait its turn. Sign in to shop the latest drop.</p>
+<button class="btn btn-filled animate-fade-in d-4" id="enterSiteBtn">Enter Site</button>
+</div>
+<p class="welcome-footer-note">Lagos — Seoul — Berlin</p>
+</div>
+</div>
+<div class="screen" id="screen-login">
+<div class="login-inner">
+<div aria-hidden="true" class="login-particles" id="loginParticles"></div>
+<div aria-hidden="true" class="login-glow-orb orb-1"></div>
+<div aria-hidden="true" class="login-glow-orb orb-2"></div>
+<div aria-hidden="true" class="login-walk-scene" id="loginWalkScene">
+<div class="login-walker" id="loginWalker">
+<svg class="walker-svg" viewbox="0 0 120 190" xmlns="http://www.w3.org/2000/svg">
+<ellipse class="w-shadow" cx="60" cy="182" fill="rgba(34,31,28,0.18)" rx="30" ry="6"></ellipse>
+<rect fill="#221F1C" height="48" rx="7" width="14" x="48" y="118"></rect>
+<rect fill="#221F1C" height="48" rx="7" width="14" x="64" y="118"></rect>
+<rect fill="#F1EADF" height="10" rx="5" width="20" x="46" y="160"></rect>
+<rect fill="#F1EADF" height="10" rx="5" width="20" x="60" y="160"></rect>
+<path d="M40 78 Q40 58 60 56 Q90 58 90 78 L92 124 Q60 134 38 124 Z" fill="#C8A96A"></path>
+<path d="M48 60 Q60 42 82 60 L76 72 Q60 62 54 72 Z" fill="#B9985A"></path>
+<rect fill="#C8A96A" height="42" rx="6" width="12" x="30" y="78"></rect>
+<rect fill="#C8A96A" height="42" rx="6" width="12" x="78" y="78"></rect>
+<circle cx="60" cy="42" fill="#E8B084" r="20"></circle>
+<path d="M42 36 Q60 18 78 36 Q76 26 60 24 Q44 26 42 36Z" fill="#221F1C"></path>
+<g class="w-bag-held">
+<rect fill="#8a5a2b" height="24" rx="3" stroke="#5c3a1a" stroke-width="1.5" width="26" x="80" y="112"></rect>
+<path d="M86 112 Q86 104 93 104 Q100 104 100 112" fill="none" stroke="#5c3a1a" stroke-width="3"></path>
+</g>
+</svg>
+</div>
+<div class="login-ground-bag" id="loginGroundBag">
+<svg viewbox="0 0 40 34" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#8a5a2b" height="26" rx="3" stroke="#5c3a1a" stroke-width="1.5" width="32" x="4" y="6"></rect>
+<path d="M12 6 Q12 -2 20 -2 Q28 -2 28 6" fill="none" stroke="#5c3a1a" stroke-width="3"></path>
+</svg>
+</div>
+</div>
+<div class="login-card-wrap">
+<div aria-hidden="true" class="hang-tag-eyelet"><span></span></div>
+<div class="login-card" id="loginCard">
+<button class="back-link" id="backToWelcome"><i data-lucide="arrow-left"></i>Back</button>
+<div aria-hidden="true" class="brand-mark">GZ</div>
+<p class="login-logo">GEN_Z</p>
+<h2 class="modal-title">Sign In</h2>
+<p class="modal-sub">Access your GEN_Z account.</p>
+<div aria-hidden="true" class="tag-stitch-divider"></div>
+<div class="tab-panel active" id="buyerPanel">
+<form id="buyerForm" style="display:flex;flex-direction:column;gap:20px;">
+<div class="field field-icon">
+<label for="buyerEmail">Email</label>
+<div class="input-icon-wrap">
+<i data-lucide="mail"></i>
+<input id="buyerEmail" placeholder="you@email.com" required="" type="email"/>
+</div>
+</div>
+<div class="field field-password field-icon">
+<label for="buyerPassword">Password</label>
+<div class="input-icon-wrap">
+<i data-lucide="lock"></i>
+<input id="buyerPassword" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Show password" class="pw-toggle" data-target="buyerPassword" type="button"><i data-lucide="eye"></i></button>
+</div>
+</div>
+<div class="remember-row">
+<label class="remember-check">
+<input id="rememberMe" type="checkbox"/>
+<span class="remember-box"><i data-lucide="check"></i></span>
+              Remember me
+            </label>
+<button class="forgot-link" id="forgotPasswordBtn" type="button">Forgot password?</button>
+</div>
+<div class="btn-row">
+<button class="btn btn-filled" style="flex:1;" type="submit">Sign In</button>
+</div>
+</form>
+<p class="modal-note">New here? <button class="forgot-link" id="goToSignupBtn" type="button">Create an account</button></p>
+<div style="display:flex;flex-direction:column;gap:20px;">
+<div class="social-divider">Or continue with Google</div>
+<div class="social-row">
+<button class="social-btn" id="googleSignInBtn" type="button">
+<svg viewbox="0 0 48 48"><path d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z" fill="#FFC107"></path><path d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6 29.6 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" fill="#FF3D00"></path><path d="M24 44c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.6C29.6 35 26.9 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.6 5.1C9.6 39.6 16.3 44 24 44z" fill="#4CAF50"></path><path d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.6 5.6C39.9 37 44 31 44 24c0-1.3-.1-2.7-.4-3.5z" fill="#1976D2"></path></svg>
+<span>Google</span>
+</button>
+</div>
+</div>
+<p class="modal-note">Welcome back — sign in to shop the latest drop.</p>
+<p class="modal-note"><button class="forgot-link" id="guestBrowseBtn" type="button">Continue as Guest</button></p>
+<div class="form-msg" id="buyerMsg"></div>
+</div>
+<div class="tab-panel" id="signupPanel">
+<form id="signupForm" style="display:flex;flex-direction:column;gap:20px;">
+<div class="field field-icon">
+<label for="signupName">Full Name</label>
+<div class="input-icon-wrap">
+<i data-lucide="user"></i>
+<input id="signupName" placeholder="Full name" required="" type="text"/>
+</div>
+</div>
+<div class="field field-icon">
+<label for="signupEmail">Email</label>
+<div class="input-icon-wrap">
+<i data-lucide="mail"></i>
+<input id="signupEmail" placeholder="you@email.com" required="" type="email"/>
+</div>
+</div>
+<div class="field field-password field-icon">
+<label for="signupPassword">Password</label>
+<div class="input-icon-wrap">
+<i data-lucide="lock"></i>
+<input id="signupPassword" minlength="6" placeholder="•••••••• (min 6 characters)" required="" type="password"/>
+<button aria-label="Show password" class="pw-toggle" data-target="signupPassword" type="button"><i data-lucide="eye"></i></button>
+</div>
+<div class="pw-strength" id="signupPwStrength">
+<div class="pw-strength-track"><span id="signupPwStrengthFill"></span></div>
+<span class="pw-strength-label" id="signupPwStrengthLabel"></span>
+</div>
+</div>
+<div class="field field-password field-icon">
+<label for="signupConfirmPassword">Confirm Password</label>
+<div class="input-icon-wrap">
+<i data-lucide="lock"></i>
+<input id="signupConfirmPassword" minlength="6" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Show password" class="pw-toggle" data-target="signupConfirmPassword" type="button"><i data-lucide="eye"></i></button>
+</div>
+</div>
+<div class="btn-row">
+<button class="btn btn-filled" style="flex:1;" type="submit">Create Account</button>
+</div>
+</form>
+<p class="modal-note">Already have an account? <button class="forgot-link" id="goToSignInBtn" type="button">Sign in instead</button></p>
+<div class="form-msg" id="signupMsg"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================
+     ADMIN PIN CHECK — second security layer. Shown only after the
+     admin email + password (entered in the normal Sign In form)
+     already matched. Keeps a compromised password alone from being
+     enough to reach the dashboard. Placed as a sibling of the
+     .screen divs (not nested inside one) so it stays visible no
+     matter which screen is currently active.
+============================================================ -->
+<div class="modal-overlay" id="adminPinOverlay">
+<div class="modal-box">
+<button aria-label="Close" class="modal-close" id="adminPinClose"><i data-lucide="x"></i></button>
+<div aria-hidden="true" class="login-illustration">
+<svg viewbox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="80" cy="100" fill="rgba(255,255,255,0.14)" r="76"></circle>
+<ellipse cx="80" cy="182" fill="rgba(0,0,0,0.15)" rx="38" ry="8"></ellipse>
+<rect fill="#221F1C" height="50" rx="8" width="16" x="62" y="120"></rect>
+<rect fill="#221F1C" height="50" rx="8" width="16" x="84" y="120"></rect>
+<rect fill="#F1EADF" height="12" rx="6" width="24" x="58" y="164"></rect>
+<rect fill="#F1EADF" height="12" rx="6" width="24" x="80" y="164"></rect>
+<path d="M50 80 Q50 60 80 58 Q110 60 110 80 L112 128 Q80 138 48 128 Z" fill="#C8A96A"></path>
+<path d="M58 62 Q80 44 102 62 L96 74 Q80 64 64 74 Z" fill="#B9985A"></path>
+<path d="M108 82 Q124 90 126 112" fill="none" stroke="#C8A96A" stroke-linecap="round" stroke-width="14"></path>
+<path d="M52 82 Q40 96 42 116" fill="none" stroke="#C8A96A" stroke-linecap="round" stroke-width="14"></path>
+<circle cx="80" cy="46" fill="#E8B084" r="22"></circle>
+<path d="M60 38 Q80 20 100 38 Q98 28 80 26 Q62 28 60 38Z" fill="#221F1C"></path>
+<circle cx="80" cy="100" fill="none" opacity="0.9" r="30" stroke="#F1EADF" stroke-width="3"></circle>
+<path d="M70 100 l7 7 l14 -16" fill="none" stroke="#F1EADF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+</svg>
+</div>
+<h2 class="modal-title" style="text-align:center;">Enter Admin PIN</h2>
+<p class="modal-sub" style="text-align:center;">One more step — enter your security PIN to open the dashboard.</p>
+<form id="adminPinForm" style="display:flex;flex-direction:column;gap:20px;margin-top:16px;">
+<div class="field field-password field-icon">
+<label for="adminPinInput">Security PIN</label>
+<div class="input-icon-wrap">
+<i data-lucide="key-round"></i>
+<input autocomplete="off" id="adminPinInput" inputmode="numeric" placeholder="••••" required="" type="password"/>
+<button aria-label="Show PIN" class="pw-toggle" data-target="adminPinInput" type="button"><i data-lucide="eye"></i></button>
+</div>
+</div>
+<div class="btn-row">
+<button class="btn btn-filled" style="flex:1;" type="submit">Verify PIN</button>
+</div>
+</form>
+<div class="form-msg" id="adminPinMsg"></div>
+</div>
+</div>
+<div class="screen" id="screen-main">
+<nav id="navbar">
+<div class="container nav-inner">
+<a class="logo" href="#hero">GEN<span class="logo-accent">_</span>Z</a>
+<div class="nav-menu-panel" id="navMenuPanel">
+<ul class="nav-links" id="navLinks">
+<li><a data-i18n="navAbout" href="#about">About</a></li>
+<li><a data-i18n="navShop" href="#shop">Shop</a></li>
+<li><a data-i18n="navLookbook" href="#lookbook">Lookbook</a></li>
+<li><a data-i18n="navServices" href="#services">Services</a></li>
+<li><a data-i18n="navTeam" href="#team">Team</a></li>
+<li><a data-i18n="navBlog" href="#blog">Blog</a></li>
+<li><a data-i18n="navNews" href="#news">News</a></li>
+<li><a data-i18n="navFaq" href="#faq">FAQ</a></li>
+<li><a data-i18n="navContact" href="#contact">Contact</a></li>
+</ul>
+<div class="nav-actions">
+<label class="nav-icon-btn lang-switch-btn" id="langSwitchBtn" title="Language">
+<i data-lucide="globe"></i>
+<select aria-label="Choose language" id="langSelect">
+<option value="en">English</option>
+<option value="ur">اردو</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="ko">한국어</option>
+<option value="es">Español</option>
+</select>
+</label>
+<label class="nav-icon-btn lang-switch-btn" id="currSwitchBtn" title="Currency">
+<i data-lucide="banknote"></i>
+<select aria-label="Choose currency" id="currSelect">
+<option value="USD">USD ($)</option>
+<option value="PKR">PKR (Rs)</option>
+</select>
+</label>
+<button aria-label="Track your order" class="nav-icon-btn" id="trackOrderBtn" title="Track Order">
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg><span class="login-label">Track Order</span>
+</button>
+<button aria-label="Open admin control panel" class="nav-icon-btn admin-panel-btn" id="adminPanelBtn" title="Admin Panel">
+<i data-lucide="layout-dashboard"></i><span class="login-label">Admin Panel</span>
+</button>
+<button aria-label="Log out of admin panel" class="nav-icon-btn nav-admin-login-btn" id="navAdminLoginBtn" title="Admin Logout">
+<i data-lucide="shield"></i><i data-lucide="log-out"></i><span class="login-label">Logout</span>
+</button>
+<button aria-label="Open login" class="nav-icon-btn login-btn" id="loginBtn" title="Login">
+<i data-lucide="user"></i><i data-lucide="log-out"></i><span class="login-label">Login / Logout</span>
+</button>
+<button aria-label="Toggle sound effects" aria-pressed="false" class="nav-icon-btn sound-toggle-btn muted" id="soundToggleBtn" title="Sound">
+<i data-lucide="volume-2"></i><i data-lucide="volume-x"></i><span class="login-label">Sound</span>
+</button>
+<button aria-label="Open wishlist" class="nav-icon-btn" id="wishlistBtn" title="Wishlist">
+<i data-lucide="heart"></i><span class="login-label">Wishlist</span><span class="cart-count" id="wishlistCount">0</span>
+</button>
+<button aria-label="Open cart" class="nav-icon-btn" id="cartBtn" title="Cart">
+<i data-lucide="shopping-bag"></i><span class="login-label">Cart</span><span class="cart-count" id="cartCount">0</span>
+</button>
+<button aria-label="Go to payment" class="nav-icon-btn nav-pay-btn" id="paymentBtn" title="Payment">
+<i data-lucide="credit-card"></i><span class="login-label">Payment</span>
+</button>
+</div>
+</div>
+<button aria-label="Scroll to see more icons" class="nav-scroll-hint" id="navScrollHint"><i data-lucide="chevron-right"></i></button>
+<button aria-label="Toggle menu" class="nav-toggle" id="navToggle"><svg fill="none" height="26" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg"><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button>
+</div>
+</nav>
+<div aria-hidden="true" class="marquee">
+<div class="marquee-track" id="marqueeTrack">
+<span><i data-lucide="zap"></i>Free Shipping Over $100</span>
+<span><i data-lucide="sparkles"></i>New Drop Every Month</span>
+<span><i data-lucide="badge-check"></i>Limited Run — Never Restocked</span>
+<span><i data-lucide="globe"></i>Lagos — Seoul — Berlin</span>
+<span><i data-lucide="zap"></i>Free Shipping Over $100</span>
+<span><i data-lucide="sparkles"></i>New Drop Every Month</span>
+<span><i data-lucide="badge-check"></i>Limited Run — Never Restocked</span>
+<span><i data-lucide="globe"></i>Lagos — Seoul — Berlin</span>
+</div>
+</div>
+<section id="hero">
+<span class="hero-glow hero-glow-a"></span>
+<span class="hero-glow hero-glow-b"></span>
+<div class="hero-bg-text">GENZ</div>
+<div class="container hero-content">
+<p class="eyebrow animate-fade-in d-1" data-i18n="heroEyebrow">Streetwear / Est. 2018</p>
+<h1 class="hero-headline" id="heroHeadline">
+<span class="animate-slide-up d-2" data-i18n="heroWord1">DEFINE</span>
+<span class="animate-slide-up d-3" data-i18n="heroWord2">YOUR</span>
+<span class="animate-slide-up d-4" data-i18n="heroWord3">GENERATION</span>
+</h1>
+<p class="hero-sub animate-fade-in d-5" data-i18n="heroSub">Clothing built for the culture that refuses to wait its turn. No trends borrowed — only made.</p>
+<div class="hero-ctas animate-fade-in d-6">
+<a class="btn btn-filled" data-i18n="heroCta1" href="#services">Shop Now</a>
+<a class="btn btn-outline" data-i18n="heroCta2" href="#about" id="ourStoryBtn">Our Story</a>
+</div>
+<div aria-hidden="true" class="hero-flatlay animate-fade-in d-6">
+<img decoding="async" alt="" id="heroFlatlayImg" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1523754182607-2ff5903ec1e2?w=1000&amp;h=560&amp;fit=crop';" src="https://images.unsplash.com/photo-1543422655-ac1c6ca993ed?w=1000&amp;h=560&amp;fit=crop"/>
+<span class="hero-flatlay-tag">T-Shirt · Fragrance · Accessories</span>
+</div>
+</div>
+<div class="hero-meta">
+<span>Lagos — Seoul — Berlin</span>
+<span>Scroll</span>
+</div>
+</section>
+<section id="about">
+<div class="container">
+<div class="about-grid">
+<div>
+<p class="eyebrow" data-i18n="aboutEyebrow" style="margin-bottom:18px;">About Us</p>
+<p class="pull-quote" data-i18n="aboutQuote">We don't follow the season. We set it.</p>
+<div class="about-body">
+<p>GEN_Z started in a garage with three sewing machines and a refusal to make clothes that looked like everyone else's. Today we're a collective of designers, welders, and archivists building pieces that read like a manifesto.</p>
+<p>Every drop is engineered small on purpose — limited runs, obsessive construction, zero filler. We build for the people who show up first and leave a mark.</p>
+</div>
+</div>
+<div class="about-image">
+<div class="about-ad-carousel" id="aboutAdCarousel">
+<!-- Slides are rendered dynamically by JS from the `aboutAds` array (see renderAboutAds()). -->
+</div>
+</div>
+</div>
+<div class="stats-row">
+<div class="stat"><h3 data-count-to="2018">0</h3><p>Founded</p></div>
+<div class="stat"><h3 data-count-to="14">0</h3><p>Cities</p></div>
+<div class="stat"><h3 data-count-to="300">0</h3><p>Pieces per drop</p></div>
+</div>
+<div class="promo-ad-strip" id="promoAdStrip">
+<div class="promo-ad-card c1">
+<p class="promo-ad-eyebrow">Limited Offer</p>
+<p class="promo-ad-title">20% Off<br/>Fragrance</p>
+<p class="promo-ad-sub">Signature Noir — this week only.</p>
+<span class="promo-ad-cta">Shop Perfume <i data-lucide="arrow-right" style="width:12px;height:12px;"></i></span>
+</div>
+<div class="promo-ad-card c2">
+<p class="promo-ad-eyebrow">New Drop</p>
+<p class="promo-ad-title">Baggy<br/>Cargo Jeans</p>
+<p class="promo-ad-sub">Only 12 left in stock — grab yours.</p>
+<span class="promo-ad-cta">Shop Jeans <i data-lucide="arrow-right" style="width:12px;height:12px;"></i></span>
+</div>
+<div class="promo-ad-card c3">
+<p class="promo-ad-eyebrow">Pay Your Way</p>
+<p class="promo-ad-title">JazzCash &amp;<br/>Bank Transfer</p>
+<p class="promo-ad-sub">Fast, secure checkout — no card needed.</p>
+<span class="promo-ad-cta">Start Checkout <i data-lucide="arrow-right" style="width:12px;height:12px;"></i></span>
+</div>
+</div>
+</div>
+</section>
+<section id="shop">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="shopTitle">Shop The Drop</h2>
+<p class="eyebrow" id="shopCount">6 Pieces / In Stock</p>
+</div>
+<div aria-live="off" class="drop-countdown" id="dropCountdown" role="timer">
+<span class="drop-countdown-label">⚡ NEXT DROP IN</span>
+<div class="drop-countdown-units">
+<div class="cd-unit"><span class="cd-value" id="cdDays">02</span><span class="cd-name">Days</span></div>
+<span class="cd-sep">:</span>
+<div class="cd-unit"><span class="cd-value" id="cdHours">14</span><span class="cd-name">Hrs</span></div>
+<span class="cd-sep">:</span>
+<div class="cd-unit"><span class="cd-value" id="cdMinutes">35</span><span class="cd-name">Min</span></div>
+<span class="cd-sep">:</span>
+<div class="cd-unit"><span class="cd-value" id="cdSeconds">12</span><span class="cd-name">Sec</span></div>
+</div>
+</div>
+<div class="shop-toolbar">
+<div class="shop-search">
+<i data-lucide="search"></i>
+<input id="productSearch" placeholder="Search pieces..." type="text"/>
+</div>
+<div class="shop-filters" id="shopFilters">
+<button class="filter-pill active" data-category="all">All</button>
+<button class="filter-pill" data-category="Fragrance">Perfume</button>
+<button class="filter-pill" data-category="Bottoms">Jeans</button>
+<button class="filter-pill" data-category="Tops">T-Shirts</button>
+<button class="filter-pill" data-category="Accessories">Accessories</button>
+</div>
+</div>
+<div class="product-grid" id="productGrid">
+<!-- Product cards are rendered dynamically by JS from the `products` array (see renderProducts()). -->
+<p class="shop-empty" id="shopEmptyState">No pieces match your search. Try a different word or filter.</p>
+</div>
+</div>
+</section>
+<section id="lookbook">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="lookbookTitle">Lookbook</h2>
+<p class="eyebrow" data-i18n="lookbookEyebrow">SS26 Campaign</p>
+</div>
+<div class="lookbook-grid">
+<div class="lookbook-card lb-tall">
+<img decoding="async" alt="Model wearing GEN_Z outerwear on a city street" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=700&amp;h=1000&amp;fit=crop';" src="https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=700&amp;h=1000&amp;fit=crop"/>
+<span class="lb-caption">Berlin — Void Hoodie</span>
+</div>
+<div class="lookbook-card lb-wide">
+<img decoding="async" alt="Streetwear group shot on concrete steps" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=1000&amp;h=650&amp;fit=crop';" src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=1000&amp;h=650&amp;fit=crop"/>
+<span class="lb-caption">Lagos — Street Cast</span>
+</div>
+<div class="lookbook-card">
+<img loading="lazy" decoding="async" alt="Close up of streetwear jacket detail" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=600&amp;h=700&amp;fit=crop';" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&amp;h=700&amp;fit=crop"/>
+<span class="lb-caption">Detail — Raw Edge Denim</span>
+</div>
+<div class="lookbook-card">
+<img loading="lazy" decoding="async" alt="Model in studio wearing sneakers" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&amp;h=700&amp;fit=crop';" src="https://images.unsplash.com/photo-1560243563-062bfc001d68?w=600&amp;h=700&amp;fit=crop"/>
+<span class="lb-caption">Studio — Concrete Trainer</span>
+</div>
+<div class="lookbook-card lb-tall">
+<img loading="lazy" decoding="async" alt="Model wearing cap and layered streetwear" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=700&amp;h=1000&amp;fit=crop';" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=700&amp;h=1000&amp;fit=crop"/>
+<span class="lb-caption">Seoul — Field Cap</span>
+</div>
+<div class="lookbook-card lb-wide">
+<img loading="lazy" decoding="async" alt="Streetwear editorial group photo at night" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=1000&amp;h=650&amp;fit=crop';" src="https://images.unsplash.com/photo-1550246140-29f40b909e5a?w=1000&amp;h=650&amp;fit=crop"/>
+<span class="lb-caption">Night Run — Full Collection</span>
+</div>
+<div class="lookbook-card">
+<img loading="lazy" decoding="async" alt="Signature Noir perfume bottle styled shot" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&amp;h=700&amp;fit=crop';" src="https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=600&amp;h=700&amp;fit=crop"/>
+<span class="lb-caption">Studio — Signature Noir Perfume</span>
+</div>
+<div class="lookbook-card lb-tall">
+<img loading="lazy" decoding="async" alt="Model wearing classic denim jeans on the street" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542272604-787c3835535d?w=700&amp;h=1000&amp;fit=crop';" src="https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?w=700&amp;h=1000&amp;fit=crop"/>
+<span class="lb-caption">Seoul — Classic Slim Jeans</span>
+</div>
+</div>
+</div>
+</section>
+<section id="instagram">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title">Follow The Drop</h2>
+<a class="eyebrow insta-handle" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<i data-lucide="instagram"></i> @genz_studio — Follow Us
+      </a>
+</div>
+<div class="insta-grid" id="instaGrid">
+<a class="insta-card" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<img decoding="async" alt="GEN_Z streetwear Instagram post — street cast" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=500&amp;h=500&amp;fit=crop';" src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500&amp;h=500&amp;fit=crop"/>
+<span class="insta-overlay"><i data-lucide="heart"></i>2.4k<i data-lucide="message-circle" style="margin-left:14px;"></i>86</span>
+</a>
+<a class="insta-card" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<img decoding="async" alt="GEN_Z streetwear Instagram post — outerwear" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=500&amp;h=500&amp;fit=crop';" src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=500&amp;h=500&amp;fit=crop"/>
+<span class="insta-overlay"><i data-lucide="heart"></i>1.8k<i data-lucide="message-circle" style="margin-left:14px;"></i>52</span>
+</a>
+<a class="insta-card" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<img decoding="async" alt="GEN_Z streetwear Instagram post — sneakers" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&amp;h=500&amp;fit=crop';" src="https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?w=500&amp;h=500&amp;fit=crop"/>
+<span class="insta-overlay"><i data-lucide="heart"></i>3.1k<i data-lucide="message-circle" style="margin-left:14px;"></i>140</span>
+</a>
+<a class="insta-card" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<img decoding="async" alt="GEN_Z streetwear Instagram post — field cap" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=500&amp;h=500&amp;fit=crop';" src="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=500&amp;h=500&amp;fit=crop"/>
+<span class="insta-overlay"><i data-lucide="heart"></i>956<i data-lucide="message-circle" style="margin-left:14px;"></i>31</span>
+</a>
+<a class="insta-card" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<img decoding="async" alt="GEN_Z streetwear Instagram post — night editorial" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=500&amp;h=500&amp;fit=crop';" src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&amp;h=500&amp;fit=crop"/>
+<span class="insta-overlay"><i data-lucide="heart"></i>4.2k<i data-lucide="message-circle" style="margin-left:14px;"></i>203</span>
+</a>
+<a class="insta-card" href="https://www.instagram.com/" rel="noopener" target="_blank">
+<img decoding="async" alt="GEN_Z streetwear Instagram post — chain necklace" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&amp;h=500&amp;fit=crop';" src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&amp;h=500&amp;fit=crop"/>
+<span class="insta-overlay"><i data-lucide="heart"></i>1.2k<i data-lucide="message-circle" style="margin-left:14px;"></i>44</span>
+</a>
+</div>
+</div>
+</section>
+<section id="services">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="servicesTitle">What We Do</h2>
+<p class="eyebrow" data-i18n="servicesEyebrow">Offerings</p>
+</div>
+<div class="services-grid" id="servicesGrid">
+<!-- Rendered dynamically by JS from the `services` array (see renderServices()). -->
+</div>
+</div>
+</section>
+<section id="team">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="teamTitle">The Crew</h2>
+<p class="eyebrow" data-i18n="teamEyebrow">Team</p>
+</div>
+<div class="team-grid" id="teamGrid">
+<!-- Rendered dynamically by JS from the `teamMembers` array (see renderTeam()). -->
+</div>
+</div>
+</section>
+<section id="blog">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="blogTitle">From The Blog</h2>
+<p class="eyebrow" data-i18n="blogEyebrow">Stories &amp; Style Guides</p>
+</div>
+<div class="blog-grid" id="blogGrid">
+<article class="blog-card">
+<div class="blog-card-image">
+<img decoding="async" alt="Model wearing oversized denim jacket" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542272604-787c3835535d?w=700&amp;h=440&amp;fit=crop';" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=700&amp;h=440&amp;fit=crop"/>
+</div>
+<div class="blog-card-body">
+<span class="blog-card-date">July 2, 2026</span>
+<h3 class="blog-card-title">How To Style Oversized Denim For Every Season</h3>
+<p class="blog-card-excerpt">From layering in winter to letting it breathe in summer — our take on getting the most out of one jacket, year-round.</p>
+<a class="blog-card-link" href="#">Read More<i data-lucide="arrow-right"></i></a>
+</div>
+</article>
+<article class="blog-card">
+<div class="blog-card-image">
+<img decoding="async" alt="Behind the scenes of a streetwear drop" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=700&amp;h=440&amp;fit=crop';" src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=700&amp;h=440&amp;fit=crop"/>
+</div>
+<div class="blog-card-body">
+<span class="blog-card-date">June 18, 2026</span>
+<h3 class="blog-card-title">Behind The Drop: Building A Limited Run From Scratch</h3>
+<p class="blog-card-excerpt">A look inside the studio as a new collection goes from first sketch to sold-out in under 48 hours.</p>
+<a class="blog-card-link" href="#">Read More<i data-lucide="arrow-right"></i></a>
+</div>
+</article>
+<article class="blog-card">
+<div class="blog-card-image">
+<img decoding="async" alt="Streetwear care guide flatlay" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=700&amp;h=440&amp;fit=crop';" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=700&amp;h=440&amp;fit=crop"/>
+</div>
+<div class="blog-card-body">
+<span class="blog-card-date">June 5, 2026</span>
+<h3 class="blog-card-title">Caring For Streetwear: Wash Less, Wear Longer</h3>
+<p class="blog-card-excerpt">Simple habits that keep prints sharp, denim structured, and hoodies looking fresh drop after drop.</p>
+<a class="blog-card-link" href="#">Read More<i data-lucide="arrow-right"></i></a>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section id="news">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="newsTitle">Latest News</h2>
+<p class="eyebrow" data-i18n="newsEyebrow">Announcements</p>
+</div>
+<div class="news-list" id="newsList">
+<div class="news-item">
+<span class="news-date">Jul 10, 2026</span>
+<div class="news-content">
+<h3>New Berlin Flagship Store Opening</h3>
+<p>GEN_Z is opening its first physical flagship on Torstrasse — same limited drops, now in-person.</p>
+</div>
+</div>
+<div class="news-item">
+<span class="news-date">Jun 22, 2026</span>
+<div class="news-content">
+<h3>JazzCash &amp; Bank Transfer Now Supported</h3>
+<p>Checkout just got easier for customers in Pakistan — pay by JazzCash or direct bank transfer at checkout.</p>
+</div>
+</div>
+<div class="news-item">
+<span class="news-date">Jun 3, 2026</span>
+<div class="news-content">
+<h3>Order Tracking Launched</h3>
+<p>Every order now comes with real-time status tracking — see exactly where your package has reached.</p>
+</div>
+</div>
+<div class="news-item">
+<span class="news-date">May 14, 2026</span>
+<div class="news-content">
+<h3>Summer '26 Collection Drops Soon</h3>
+<p>Sign up for the newsletter to get first access before the next limited run sells out.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="faq">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="faqTitle">FAQ</h2>
+<p class="eyebrow" data-i18n="faqEyebrow">Good To Know</p>
+</div>
+<div class="faq-list">
+<div class="faq-item">
+<button aria-expanded="false" class="faq-question">
+<span>How long does shipping take?</span>
+<i data-lucide="plus"></i>
+</button>
+<div class="faq-answer"><div><p>Domestic orders ship within 2–4 business days. International orders to most of Europe, Asia, and North America land in 6–10 business days. Every drop ships with tracking included.</p></div></div>
+</div>
+<div class="faq-item">
+<button aria-expanded="false" class="faq-question">
+<span>Do you restock sold-out drops?</span>
+<i data-lucide="plus"></i>
+</button>
+<div class="faq-answer"><div><p>No. Every GEN_Z drop is produced in a limited run on purpose. Once a piece sells out it's archived, not remade — that's part of the point.</p></div></div>
+</div>
+<div class="faq-item">
+<button aria-expanded="false" class="faq-question">
+<span>What's your return policy?</span>
+<i data-lucide="plus"></i>
+</button>
+<div class="faq-answer"><div><p>Unworn pieces with tags attached can be returned within 14 days of delivery for a full refund. Custom and made-to-order pieces are final sale.</p></div></div>
+</div>
+<div class="faq-item">
+<button aria-expanded="false" class="faq-question">
+<span>How do custom pieces work?</span>
+<i data-lucide="plus"></i>
+</button>
+<div class="faq-answer"><div><p>Reach out through the contact form with your idea. Our team responds with a scope and quote within a few days, then builds your piece by hand in the Berlin studio.</p></div></div>
+</div>
+<div class="faq-item">
+<button aria-expanded="false" class="faq-question">
+<span>Which sizes do you carry?</span>
+<i data-lucide="plus"></i>
+</button>
+<div class="faq-answer"><div><p>Most pieces run XS–XXL with an oversized, streetwear-true fit. Each product page notes whether a piece runs true to size or roomier.</p></div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="contact">
+<div class="container">
+<div class="contact-grid">
+<div class="contact-left">
+<p class="eyebrow" data-i18n="contactEyebrow" style="margin-bottom:18px;">Get In Touch</p>
+<h2 data-i18n="contactTitle">LET'S TALK</h2>
+<div class="contact-line"><i data-lucide="mail"></i><span>support@example.com</span></div>
+<div class="contact-line"><i data-lucide="map-pin"></i><span>YOUR_BUSINESS_ADDRESS</span></div>
+<div class="contact-line"><i data-lucide="phone"></i><span>YOUR_BUSINESS_PHONE</span></div>
+<div class="contact-line"><i data-lucide="life-buoy"></i><span>Support &amp; complaints: support@example.com</span></div>
+</div>
+<form onsubmit="return false;">
+<div class="field">
+<label for="name">Name</label>
+<input id="name" placeholder="Your name" required="" type="text"/>
+</div>
+<div class="field">
+<label for="email">Email</label>
+<input id="email" placeholder="you@email.com" required="" type="email"/>
+</div>
+<div class="field">
+<label for="message">Message</label>
+<textarea id="message" placeholder="Tell us what's on your mind" required=""></textarea>
+</div>
+<button class="btn btn-filled" type="submit">Send Message</button>
+<div class="form-msg" id="contactMsg">Thanks for reaching out — we'll get back to you within 2 business days. For urgent complaints, email support@example.com directly.</div>
+</form>
+</div>
+</div>
+</section>
+<section id="reviews">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title" data-i18n="reviewsTitle">Customer Reviews</h2>
+<p class="eyebrow" data-i18n="reviewsEyebrow">Trusted</p>
+</div>
+<div class="reviews-grid">
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-quote">Premium quality and fast delivery. The hoodie fits exactly how it looked online.</p>
+<p class="review-author">Amara O. — Lagos</p>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-quote">Excellent fabric and modern style. Already planning my next order.</p>
+<p class="review-author">Jin S. — Seoul</p>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-quote">Will definitely order again. Packaging alone felt like unboxing a limited drop.</p>
+<p class="review-author">Lena M. — Berlin</p>
+</div>
+</div>
+</div>
+</section>
+<section id="newsletter">
+<div class="container newsletter-inner">
+<h2 class="section-title" data-i18n="newsletterTitle">Join Our Newsletter</h2>
+<p data-i18n="newsletterSub" style="margin:15px 0 8px;color:var(--muted-foreground);">Get updates about new drops and exclusive offers.</p>
+<form class="newsletter-form" id="newsletterForm">
+<label for="newsletterEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email address</label>
+<input id="newsletterEmail" placeholder="Your email" required="" type="email"/>
+<button class="btn btn-filled" type="submit">Subscribe</button>
+</form>
+<p class="form-msg newsletter-msg" id="newsletterMsg">You're on the list — watch your inbox for the next drop.</p>
+</div>
+</section>
+<footer>
+<div class="container footer-inner">
+<span class="logo" style="font-size:1.2rem;">GEN<span class="logo-accent">_</span>Z</span>
+<span class="footer-copy">© 2026 GEN_Z Studio. All rights reserved. Complaints &amp; support: <a href="mailto:support@example.com" style="text-decoration:underline;">support@example.com</a></span>
+<div class="footer-social">
+<a aria-label="WhatsApp" href="#contact" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" height="20" viewbox="0 0 32 32" width="20"><path d="M16.004 3C9.383 3 4 8.383 4 15.004c0 2.36.68 4.56 1.86 6.42L4 29l7.74-1.83a11.94 11.94 0 0 0 4.264.78h.004C22.63 27.95 28 22.57 28 15.95 28 9.33 22.63 3 16.004 3zm0 21.62h-.003a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.89.9-3.65-.24-.375a9.86 9.86 0 0 1-1.52-5.29c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.45 9.92-9.917 9.92zm5.44-7.42c-.298-.15-1.767-.87-2.04-.97-.274-.1-.474-.15-.673.15-.2.298-.77.97-.944 1.17-.174.2-.348.223-.646.075-.298-.15-1.257-.463-2.395-1.475-.885-.79-1.483-1.765-1.657-2.063-.174-.298-.02-.46.13-.608.134-.133.298-.348.447-.522.15-.174.2-.298.298-.497.1-.2.05-.373-.025-.522-.075-.15-.673-1.62-.922-2.22-.243-.583-.49-.505-.673-.514l-.573-.01c-.2 0-.522.075-.796.373-.273.298-1.045 1.02-1.045 2.49s1.07 2.89 1.22 3.09c.15.2 2.105 3.213 5.1 4.505.712.307 1.268.49 1.7.627.714.227 1.363.195 1.877.118.573-.086 1.767-.722 2.016-1.42.25-.696.25-1.294.174-1.42-.075-.124-.273-.198-.573-.348z" fill="currentColor"></path></svg>
+</a>
+<a aria-label="Instagram" href="#"><i data-lucide="instagram"></i></a>
+<a aria-label="Twitter" href="#"><i data-lucide="twitter"></i></a>
+</div>
+</div>
+</footer>
+<div class="modal-overlay" id="cartOverlay">
+<div class="modal-box">
+<button aria-label="Close cart" class="modal-close" id="cartClose"><i data-lucide="x"></i></button>
+<h2 class="modal-title">Checkout</h2>
+<p class="modal-sub">Review your bag and pay securely.</p>
+<div class="cart-summary" id="cartSummary">
+<p style="font-size:0.85rem;color:var(--muted-foreground);">Your bag is empty. Add pieces from the shop.</p>
+</div>
+<div class="discount-block" id="discountBlock" style="display:none;">
+<div class="discount-input-row" id="discountInputRow">
+<input autocomplete="off" id="discountInput" maxlength="20" placeholder="Promo code" type="text"/>
+<button class="btn btn-outline" id="applyDiscountBtn" type="button">Apply</button>
+</div>
+<div id="discountAppliedWrap"></div>
+<p class="discount-msg" id="discountMsg"></p>
+</div>
+<div class="cart-upsell" id="cartUpsell" style="display:none;">
+<p class="cart-upsell-title">You Might Also Like</p>
+<div class="cart-upsell-grid" id="cartUpsellGrid"></div>
+</div>
+<form id="paymentForm" style="display:flex;flex-direction:column;gap:0;">
+<div class="shipping-block">
+<h3 class="shipping-heading"><i data-lucide="map-pin"></i>Shipping Address</h3>
+<p class="modal-sub" style="margin:0 0 14px;">We need this before we can take your payment, so your order actually reaches you.</p>
+<div class="shipping-grid">
+<div class="field">
+<label for="shipFullName">Full Name</label>
+<input autocomplete="name" id="shipFullName" placeholder="Full name" required="" type="text"/>
+</div>
+<div class="field">
+<label for="shipPhone">Phone Number</label>
+<input autocomplete="tel" id="shipPhone" placeholder="03XX-XXXXXXX" required="" type="tel"/>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="shipAddress">Street Address</label>
+<input autocomplete="street-address" id="shipAddress" placeholder="House #, street, area" required="" type="text"/>
+</div>
+<div class="field">
+<label for="shipCity">City</label>
+<input autocomplete="address-level2" id="shipCity" placeholder="City" required="" type="text"/>
+</div>
+<div class="field">
+<label for="shipPostal">Postal Code</label>
+<input autocomplete="postal-code" id="shipPostal" placeholder="Postal / ZIP code" type="text"/>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="shipEmail">Email (for order tracking)</label>
+<input autocomplete="email" id="shipEmail" placeholder="you@email.com" required="" type="email"/>
+</div>
+</div>
+</div>
+<div aria-label="Payment method" class="pay-method-tabs" role="tablist">
+<button class="pay-method-tab active" data-method="card" type="button"><i data-lucide="credit-card"></i>Card</button>
+<button class="pay-method-tab" data-method="jazzcash" type="button"><i data-lucide="smartphone"></i>JazzCash</button>
+<button class="pay-method-tab" data-method="bank" type="button"><i data-lucide="landmark"></i>Bank</button>
+<button class="pay-method-tab" data-method="cod" type="button"><i data-lucide="hand-coins"></i>Cash on Delivery</button>
+</div>
+<div class="pay-fields active" data-method-fields="card" style="gap:16px;">
+<p class="modal-sub" style="margin:0;">Card payments are processed securely on Stripe's own checkout page — GEN_Z never sees or stores your card details.</p>
+<p class="jazzcash-note"><i data-lucide="info" style="width:13px;height:13px;vertical-align:-2px;margin-right:4px;"></i>Tap "Pay Now" below to open the secure Stripe checkout in a new tab and complete your card payment there.</p>
+</div>
+<div class="pay-fields" data-method-fields="jazzcash" style="gap:20px;">
+<div class="field">
+<label for="jazzcashNumber">JazzCash Mobile Number</label>
+<input id="jazzcashNumber" inputmode="numeric" placeholder="03XX-XXXXXXX" type="tel"/>
+</div>
+<p class="jazzcash-note"><i data-lucide="info" style="width:13px;height:13px;vertical-align:-2px;margin-right:4px;"></i>We'll send a manual JazzCash payment request to this number to confirm your order. Automatic in-app JazzCash checkout isn't connected yet.</p>
+</div>
+<div class="pay-fields" data-method-fields="bank" style="gap:16px;">
+<p class="bank-note">Transfer the order total to:<br/><strong>GEN_Z Studio</strong> — Account: YOUR_BANK_ACCOUNT<br/>Meezan Bank / HBL / UBL accepted. Email your receipt to <strong>support@example.com</strong> to confirm.</p>
+</div><div class="pay-fields" data-method-fields="cod" style="gap:16px;">
+<p class="bank-note"><strong>Cash on Delivery</strong><br/>Place your order now and pay the courier in cash when your GEN_Z package arrives. Your order will be saved in the GEN_Z database and appear in the admin Orders panel.</p>
+</div>
+<button class="btn btn-filled" id="payBtn" style="margin-top:20px;" type="submit">Place Order</button>
+</form>
+<p class="modal-note"><i data-lucide="lock" style="width:13px;height:13px;vertical-align:-2px;margin-right:4px;"></i>Secure checkout. COD orders are confirmed in the GEN_Z database. Card/JazzCash require their respective merchant gateway credentials. Order issues: support@example.com</p>
+<div class="form-msg" id="payMsg">Payment confirmed — your order is on its way.</div>
+</div>
+</div>
+<div class="modal-overlay" id="wishlistOverlay">
+<div class="modal-box">
+<button aria-label="Close wishlist" class="modal-close" id="wishlistClose"><i data-lucide="x"></i></button>
+<h2 class="modal-title">Wishlist</h2>
+<p class="modal-sub">Pieces you're saving for later.</p>
+<div class="cart-summary" id="wishlistSummary">
+<p style="font-size:0.85rem;color:var(--muted-foreground);">Nothing saved yet. Tap the heart on any piece.</p>
+</div>
+</div>
+</div>
+<!-- ============================================================
+     TRACK ORDER — buyer looks up their orders by the email used
+     at checkout and sees a live-style status tracker for each one.
+     Order data is saved locally (no real backend), keyed by email.
+============================================================ -->
+<div class="modal-overlay" id="trackOverlay">
+<div class="modal-box">
+<button aria-label="Close order tracking" class="modal-close" id="trackClose"><i data-lucide="x"></i></button>
+<h2 class="modal-title">Track Your Order</h2>
+<p class="modal-sub">Enter the email you used at checkout to see where your order has reached.</p>
+<form class="track-lookup" id="trackLookupForm">
+<input id="trackEmailInput" placeholder="you@email.com" required="" type="email"/>
+<button class="btn btn-filled" type="submit">Track</button>
+</form>
+<div id="trackResults">
+<p style="font-size:0.85rem;color:var(--muted-foreground);">Your orders will appear here once you look them up.</p>
+</div>
+</div>
+</div>
+<!-- ============================================================
+     ADMIN CONTROL PANEL — visible only to the logged-in admin.
+     Lets the admin add, edit, and archive/delete products in
+     real time. Changes persist via localStorage.
+============================================================ -->
+<div class="admin-overlay" id="adminOverlay">
+<div class="admin-dashboard">
+<div class="admin-dash-head">
+<div style="display:flex;align-items:center;gap:16px;">
+<button aria-label="Back to shop" class="admin-dash-back" id="adminDashBack"><i data-lucide="arrow-left"></i>Back</button>
+<div>
+<h2>Admin Control Panel</h2>
+<p>Manage the GEN_Z catalog in real time</p>
+</div>
+</div>
+<div class="admin-dash-actions" style="display:flex;align-items:center;gap:10px;">
+<button aria-label="Log out of admin panel" class="admin-dash-back admin-dash-logout" id="adminLogoutBtn" title="Log out of admin panel"><i data-lucide="log-out"></i>Logout</button>
+<button aria-label="Close admin panel" class="admin-dash-close" id="adminDashClose"><i data-lucide="x"></i></button>
+</div>
+</div>
+<div class="admin-tabs" id="adminTabs">
+<button class="admin-tab-btn active" data-admin-tab="products" type="button"><i data-lucide="shirt"></i>Products</button>
+<button class="admin-tab-btn" data-admin-tab="discounts" type="button"><i data-lucide="tag"></i>Discounts</button>
+<button class="admin-tab-btn" data-admin-tab="analytics" type="button"><i data-lucide="bar-chart-3"></i>Analytics</button>
+<button class="admin-tab-btn" data-admin-tab="offerings" type="button"><i data-lucide="layers"></i>Offerings</button>
+<button class="admin-tab-btn" data-admin-tab="crew" type="button"><i data-lucide="users"></i>Crew</button>
+<button class="admin-tab-btn" data-admin-tab="ads" type="button"><i data-lucide="megaphone"></i>Ads</button>
+<button class="admin-tab-btn" data-admin-tab="hero" type="button"><i data-lucide="image"></i>Homepage</button>
+<button class="admin-tab-btn" data-admin-tab="orders" type="button"><i data-lucide="shopping-bag"></i>Orders</button>
+<button class="admin-tab-btn" data-admin-tab="users" type="button"><i data-lucide="users"></i>Users</button>
+</div>
+<!-- Products tab: full add/edit form + catalog list -->
+<div class="admin-tab-panel active" data-admin-panel="products">
+<div class="admin-dash-body">
+<div class="admin-dash-form">
+<h3 id="adminFormTitle">Add New Product</h3>
+<p class="form-hint" id="adminFormHint">Fill in the details below to drop a new piece straight into the shop grid.</p>
+<form id="adminProductForm">
+<input id="apId" type="hidden" value=""/>
+<div class="field">
+<label for="apName">Product Name</label>
+<input id="apName" placeholder="e.g. Nightwalker Jacket" required="" type="text"/>
+</div>
+<div class="field">
+<label for="apPrice">Price (USD)</label>
+<input id="apPrice" min="0" placeholder="e.g. 120" required="" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="apCategory">Category</label>
+<select id="apCategory" required="">
+<option value="Fragrance">Fragrance / Perfume</option>
+<option value="Bottoms">Jeans / Bottoms</option>
+<option value="Tops">T-Shirts / Tops</option>
+<option value="Accessories">Accessories</option>
+</select>
+</div>
+<div class="field">
+<label for="apTag">Tag</label>
+<select id="apTag">
+<option value="">None</option>
+<option value="NEW DROP">NEW DROP</option>
+<option value="LIMITED">LIMITED</option>
+<option value="RESTOCKED">RESTOCKED</option>
+<option value="LAST FEW">LAST FEW</option>
+</select>
+</div>
+<div class="field">
+<label for="apStock">Stock Count</label>
+<input id="apStock" min="0" placeholder="e.g. 25" required="" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="apSizes">Sizes (optional)</label>
+<input id="apSizes" placeholder="e.g. S, M, L, XL" type="text"/>
+<p class="form-hint" style="margin-top:4px;">Comma-separated. Leave blank for items without sizes (fragrance, accessories).</p>
+</div>
+<div class="field">
+<label for="apImage">Product Picture</label>
+<div class="image-input-row">
+<input id="apImage" placeholder="Paste an image URL, or upload from your PC" type="text"/>
+<label class="btn btn-outline file-upload-btn" for="apImageFile"><i data-lucide="upload"></i>Upload from PC</label>
+<input accept="image/*" hidden="" id="apImageFile" type="file"/>
+</div>
+<div class="image-preview" id="apImagePreview"><span>No picture yet</span></div>
+</div>
+<div class="admin-form-actions">
+<button class="btn btn-filled" id="apSubmitBtn" type="submit">Add Product</button>
+<button class="btn btn-outline" id="apCancelEdit" style="display:none;" type="button">Cancel</button>
+</div>
+</form>
+</div>
+<div class="admin-dash-list">
+<div class="admin-list-head">
+<h3>Catalog (<span id="adminProductCount">0</span>)</h3>
+<div class="admin-bulk-actions" id="adminBulkActions" style="display:flex;align-items:center;gap:10px;">
+<label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted-foreground);cursor:pointer;">
+<input id="adminSelectAll" type="checkbox"/> Select all
+              </label>
+<button class="btn btn-outline" disabled="" id="adminBulkArchiveBtn" type="button"><i data-lucide="archive"></i>Archive Selected (<span id="adminBulkCount">0</span>)</button>
+</div>
+</div>
+<div id="adminProductList"></div>
+</div>
+</div>
+</div>
+<!-- Discounts tab: manage promo/coupon codes applied in the cart -->
+<div class="admin-tab-panel" data-admin-panel="discounts">
+<div class="admin-dash-body">
+<div class="admin-dash-form">
+<h3 id="adcFormTitle">Add Discount Code</h3>
+<p class="form-hint" id="adcFormHint">Create a code shoppers can enter in the cart at checkout.</p>
+<form id="adminDiscountForm">
+<input id="adcOriginalCode" type="hidden" value=""/>
+<div class="field">
+<label for="adcCode">Code</label>
+<input id="adcCode" maxlength="20" placeholder="e.g. SUMMER20" required="" style="text-transform:uppercase;" type="text"/>
+</div>
+<div class="field">
+<label for="adcType">Discount Type</label>
+<select id="adcType">
+<option value="percent">Percent off (%)</option>
+<option value="flat">Flat amount off ($)</option>
+</select>
+</div>
+<div class="field">
+<label for="adcValue">Value</label>
+<input id="adcValue" min="0" placeholder="e.g. 15" required="" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="adcLabel">Description shown to shopper</label>
+<input id="adcLabel" placeholder="e.g. 15% off your order" required="" type="text"/>
+</div>
+<div class="admin-form-actions">
+<button class="btn btn-filled" id="adcSubmitBtn" type="submit">Add Code</button>
+<button class="btn btn-outline" id="adcCancelEdit" style="display:none;" type="button">Cancel</button>
+</div>
+</form>
+</div>
+<div class="admin-dash-list">
+<div class="admin-list-head">
+<h3>Active Codes (<span id="adminDiscountCount">0</span>)</h3>
+</div>
+<div id="adminDiscountList"></div>
+</div>
+</div>
+</div>
+<!-- Analytics tab: revenue, order stats and top-selling products,
+         computed live from the orders saved during checkout. -->
+<div class="admin-tab-panel" data-admin-panel="analytics">
+<div class="admin-analytics">
+<div class="analytics-stat-grid" id="analyticsStatGrid"></div>
+<div class="analytics-card" id="analyticsLowStockCard" style="margin-bottom:20px;">
+<h3><i data-lucide="alert-triangle" style="width:15px;height:15px;vertical-align:-2px;margin-right:5px;"></i>Low Stock Alerts</h3>
+<div id="analyticsLowStock"></div>
+</div>
+<div class="analytics-columns">
+<div class="analytics-card">
+<h3>Top Selling Products</h3>
+<div id="analyticsTopProducts"></div>
+</div>
+<div class="analytics-card">
+<h3>Recent Orders</h3>
+<div id="analyticsOrdersList" style="overflow-x:auto;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Offerings tab: manage the "What We Do" cards, including a picture per card -->
+<div class="admin-tab-panel" data-admin-panel="offerings">
+<div class="admin-simple-list">
+<div class="admin-list-head">
+<h3>Offerings (<span id="adminOfferingsCount">0</span>)</h3>
+<button class="btn btn-filled admin-add-btn" data-admin-add="service" type="button"><i data-lucide="plus"></i>Add Offering</button>
+</div>
+<div id="adminOfferingsList"></div>
+</div>
+</div>
+<!-- Crew tab: manage "The Crew" team members -->
+<div class="admin-tab-panel" data-admin-panel="crew">
+<div class="admin-simple-list">
+<div class="admin-list-head">
+<h3>Crew (<span id="adminCrewCount">0</span>)</h3>
+<button class="btn btn-filled admin-add-btn" data-admin-add="team" type="button"><i data-lucide="plus"></i>Add Crew Member</button>
+</div>
+<div id="adminCrewList"></div>
+</div>
+</div>
+<!-- Ads tab: manage promo ad tiles across About / Crew / Offerings -->
+<div class="admin-tab-panel" data-admin-panel="ads">
+<div class="admin-simple-list">
+<div class="admin-list-head">
+<h3>Promo Ads (<span id="adminAdsCount">0</span>)</h3>
+<div class="admin-ad-add-group">
+<button class="btn btn-outline admin-add-btn" data-admin-add="about-ad" type="button"><i data-lucide="plus"></i>About Ad</button>
+<button class="btn btn-outline admin-add-btn" data-admin-add="team-ad" type="button"><i data-lucide="plus"></i>Crew Ad</button>
+<button class="btn btn-outline admin-add-btn" data-admin-add="service-ad" type="button"><i data-lucide="plus"></i>Offering Ad</button>
+</div>
+</div>
+<div id="adminAdsList"></div>
+</div>
+</div>
+<!-- Homepage tab: edit the hero photo shown below the "Define Your
+         Generation" headline — same control as the on-page pencil Edit
+         button, just also reachable from inside the dashboard. -->
+<div class="admin-tab-panel" data-admin-panel="hero">
+<div class="admin-dash-form" style="border-right:none;max-width:520px;">
+<h3>Homepage Hero Photo</h3>
+<p class="form-hint">Shown below the "Define Your Generation" headline on the homepage.</p>
+<form id="adminHeroForm">
+<div class="field">
+<label for="ahImage">Photo</label>
+<div class="image-input-row">
+<input id="ahImage" placeholder="https://... or upload from your PC" required="" type="text"/>
+<label class="btn btn-outline file-upload-btn" for="ahImageFile"><i data-lucide="upload"></i>Upload from PC</label>
+<input accept="image/*" hidden="" id="ahImageFile" type="file"/>
+</div>
+<div class="image-preview" id="ahImagePreview"><span>No photo yet</span></div>
+</div>
+<div class="admin-form-actions">
+<button class="btn btn-filled" type="submit">Save Hero Photo</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Orders tab: live orders from MySQL -->
+<div class="admin-tab-panel" data-admin-panel="orders">
+<div class="admin-dash-body">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;">
+<div><h3 style="margin:0;">Live Orders</h3><p class="form-hint">Orders are loaded from the InfinityFree MySQL database.</p></div>
+<button class="btn btn-outline" id="refreshOrdersBtn" type="button">Refresh</button>
+</div>
+<div id="adminOrdersList"><p class="form-hint">Open this tab to load orders.</p></div>
+</div>
+</div>
+<!-- Users tab: read-only view of every sign-in (buyer name, Google,
+         that has been recorded — the "database" of logins. -->
+<div class="admin-tab-panel" data-admin-panel="users">
+<div class="admin-simple-list">
+<div class="admin-list-head">
+<h3>Signed-In Users (<span id="adminUsersCount">0</span>)</h3>
+<button class="btn btn-outline" id="adminUsersClearBtn" type="button"><i data-lucide="trash-2"></i>Clear All</button>
+</div>
+<div class="admin-dash-list" style="overflow-x:auto;">
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+<thead>
+<tr style="text-align:left;border-bottom:1px solid var(--border);">
+<th style="padding:8px 10px;">Name</th>
+<th style="padding:8px 10px;">Email / Gmail</th>
+<th style="padding:8px 10px;">Security</th>
+<th style="padding:8px 10px;">Method</th>
+<th style="padding:8px 10px;">Date</th>
+</tr>
+</thead>
+<tbody id="adminUsersTableBody"></tbody>
+</table>
+<p id="adminUsersEmpty" style="display:none;font-size:0.85rem;color:var(--muted-foreground);padding:14px 10px;">No sign-ins recorded yet.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="admin-toast" id="adminToast"></div>
+<!-- ============================================================
+     LIVE CHAT WIDGET — floating support bubble available on every
+     screen. A lightweight, keyword-matched FAQ bot (no backend) that
+     answers common questions instantly and falls back to pointing
+     the visitor at the contact email for anything else.
+============================================================ -->
+<div class="chat-widget" id="chatWidget">
+<div class="chat-panel" id="chatPanel">
+<div class="chat-panel-head">
+<div>
+<p class="chat-panel-title">GEN_Z Support</p>
+<p class="chat-panel-sub"><span class="chat-online-dot"></span>Usually replies instantly</p>
+</div>
+<button aria-label="Close chat" class="chat-panel-close" id="chatPanelClose" type="button"><i data-lucide="x"></i></button>
+</div>
+<div class="chat-panel-body" id="chatPanelBody"></div>
+<form class="chat-panel-input-row" id="chatForm">
+<label for="chatInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Type a message</label>
+<input autocomplete="off" id="chatInput" placeholder="Ask about shipping, sizing, returns…" type="text"/>
+<button aria-label="Send message" type="submit"><i data-lucide="send"></i></button>
+</form>
+</div>
+<button aria-label="Open live chat" class="chat-bubble" id="chatBubble" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+</button>
+</div>
+<!-- ============================================================
+     SIZE GUIDE MODAL — opened from the "Size Guide" link on every
+     product card. Static reference table, same for all products.
+============================================================ -->
+<div class="modal-overlay" id="sizeGuideOverlay">
+<div class="modal-box" style="max-width:560px;">
+<button aria-label="Close size guide" class="modal-close" id="sizeGuideClose"><i data-lucide="x"></i></button>
+<h2 class="modal-title">Size Guide</h2>
+<p class="modal-sub">GEN_Z pieces run true to an oversized, streetwear fit. If you're between sizes, size down for a tighter fit or stay true to size for the intended baggy look.</p>
+<div class="size-guide-table-wrap">
+<table class="size-guide-table">
+<thead>
+<tr><th>Size</th><th>Chest (in)</th><th>Waist (in)</th><th>Length (in)</th></tr>
+</thead>
+<tbody>
+<tr><td>XS</td><td>34–36</td><td>27–29</td><td>26</td></tr>
+<tr><td>S</td><td>37–39</td><td>30–32</td><td>27</td></tr>
+<tr><td>M</td><td>40–42</td><td>33–35</td><td>28</td></tr>
+<tr><td>L</td><td>43–45</td><td>36–38</td><td>29</td></tr>
+<tr><td>XL</td><td>46–48</td><td>39–41</td><td>30</td></tr>
+<tr><td>XXL</td><td>49–51</td><td>42–44</td><td>31</td></tr>
+</tbody>
+</table>
+</div>
+<p class="modal-note"><i data-lucide="ruler" style="width:13px;height:13px;vertical-align:-2px;margin-right:4px;"></i>Measurements are body measurements in inches. Still unsure? Email support@example.com and we'll help you pick a size.</p>
+</div>
+</div>
+<!-- ============================================================
+     PRODUCT REVIEW MODAL — opened from "Rate & Review" on any
+     product card. Lets any visitor submit a star rating + comment
+     for that specific product; the product's average rating and
+     review count update immediately and persist to localStorage.
+============================================================ -->
+<div class="modal-overlay" id="reviewOverlay">
+<div class="modal-box" style="max-width:520px;">
+<button aria-label="Close review form" class="modal-close" id="reviewClose"><i data-lucide="x"></i></button>
+<h2 class="modal-title">Rate &amp; Review</h2>
+<p class="modal-sub" id="reviewProductName">Share your experience with this piece.</p>
+<form id="reviewForm" style="display:flex;flex-direction:column;gap:16px;">
+<input id="reviewProductId" type="hidden" value=""/>
+<div aria-label="Star rating" class="review-star-picker" id="reviewStarPicker" role="radiogroup">
+<button aria-label="1 star" class="review-star-btn" data-star="1" type="button"><i data-lucide="star"></i></button>
+<button aria-label="2 stars" class="review-star-btn" data-star="2" type="button"><i data-lucide="star"></i></button>
+<button aria-label="3 stars" class="review-star-btn" data-star="3" type="button"><i data-lucide="star"></i></button>
+<button aria-label="4 stars" class="review-star-btn" data-star="4" type="button"><i data-lucide="star"></i></button>
+<button aria-label="5 stars" class="review-star-btn" data-star="5" type="button"><i data-lucide="star"></i></button>
+</div>
+<div class="field">
+<label for="reviewName">Your Name</label>
+<input id="reviewName" placeholder="e.g. Amara O." required="" type="text"/>
+</div>
+<div class="field">
+<label for="reviewComment">Your Review</label>
+<textarea id="reviewComment" placeholder="How did it fit? How's the quality?" required="" rows="3" style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;resize:vertical;"></textarea>
+</div>
+<div class="admin-form-actions">
+<button class="btn btn-filled" type="submit">Submit Review</button>
+</div>
+<div class="form-msg" id="reviewMsg"></div>
+</form>
+<div class="review-existing-list" id="reviewExistingList"></div>
+</div>
+</div>
+<!-- ============================================================
+     QUICK EDIT MODAL — shared by "The Crew" (team) and "What We
+     Do" (services) sections. Admin-only. Fields are injected by JS
+     depending on which content type is being edited.
+============================================================ -->
+<div class="modal-overlay" id="quickEditOverlay">
+<div class="modal-box">
+<button aria-label="Close editor" class="modal-close" id="quickEditClose"><i data-lucide="x"></i></button>
+<h2 class="modal-title" id="quickEditTitle">Edit</h2>
+<p class="modal-sub" id="quickEditSub">Update this content — changes apply instantly.</p>
+<form id="quickEditForm" style="display:flex;flex-direction:column;gap:18px;">
+<div id="quickEditFields"></div>
+<div class="admin-form-actions">
+<button class="btn btn-filled" type="submit">Save Changes</button>
+<button class="btn btn-outline" id="quickEditDelete" type="button">Remove</button>
+</div>
+</form>
+</div>
+</div>
+<!-- ============================================================
+     WHATSAPP FLOATING BUTTON
+     Quick-contact bubble, always visible in the bottom corner.
+     REPLACE_WITH_YOUR_WHATSAPP_NUMBER: swap in your real number
+     (country code, no + or spaces, e.g. 923001234567 for Pakistan).
+     The pre-filled text opens straight into a chat.
+============================================================ -->
+<a aria-label="Chat with us on WhatsApp" class="whatsapp-float-btn" href="#contact" id="whatsappFloatBtn" rel="noopener noreferrer" target="_blank" title="Chat on WhatsApp">
+<svg aria-hidden="true" height="28" viewbox="0 0 32 32" width="28">
+<path d="M16.004 3C9.383 3 4 8.383 4 15.004c0 2.36.68 4.56 1.86 6.42L4 29l7.74-1.83a11.94 11.94 0 0 0 4.264.78h.004C22.63 27.95 28 22.57 28 15.95 28 9.33 22.63 3 16.004 3zm0 21.62h-.003a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.89.9-3.65-.24-.375a9.86 9.86 0 0 1-1.52-5.29c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.45 9.92-9.917 9.92zm5.44-7.42c-.298-.15-1.767-.87-2.04-.97-.274-.1-.474-.15-.673.15-.2.298-.77.97-.944 1.17-.174.2-.348.223-.646.075-.298-.15-1.257-.463-2.395-1.475-.885-.79-1.483-1.765-1.657-2.063-.174-.298-.02-.46.13-.608.134-.133.298-.348.447-.522.15-.174.2-.298.298-.497.1-.2.05-.373-.025-.522-.075-.15-.673-1.62-.922-2.22-.243-.583-.49-.505-.673-.514l-.573-.01c-.2 0-.522.075-.796.373-.273.298-1.045 1.02-1.045 2.49s1.07 2.89 1.22 3.09c.15.2 2.105 3.213 5.1 4.505.712.307 1.268.49 1.7.627.714.227 1.363.195 1.877.118.573-.086 1.767-.722 2.016-1.42.25-.696.25-1.294.174-1.42-.075-.124-.273-.198-.573-.348z" fill="currentColor"></path>
+</svg>
+</a>
+</div>
+
+<script src="assets/config.local.js"></script>
+<script src="assets/app.js"></script></body>
+</html>

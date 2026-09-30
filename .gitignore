@@ -1,0 +1,20 @@
+# Private deployment configuration
+/backend/config.php
+/assets/config.local.js
+.env
+.env.*
+!.env.example
+# Runtime user, login and order records
+/backend/data/*
+!/backend/data/.htaccess
+*.log
+*.bak
+*.sql.gz
+*.sqlite
+*.db
+# Dependencies and local caches
+node_modules/
+vendor/
+__pycache__/
+.DS_Store
+Thumbs.db
